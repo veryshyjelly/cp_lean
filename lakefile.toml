@@ -1,0 +1,18 @@
+name = "cp_lean"
+version = "0.1.0"
+defaultTargets = ["main"]
+
+[[lean_lib]]
+name = "Src"
+
+[[lean_exe]]
+name = "main"
+root = "Main"
+
+[[lean_exe]]
+name = "Abc436A"
+root = "Src.Bin.Abc436A"
+
+# [[lean_exe]]
+# name = "foo"
+# root = "Src.Bin.Foo"
