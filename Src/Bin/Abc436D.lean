@@ -3,25 +3,25 @@
 import Src.Cpio
 
 -- @head begin
-import Std
+import Mathlib.Data.Int.Basic
 -- @head end
 
 -- @code begin
 open Std
 
-abbrev Loc := Nat×Nat
+abbrev Loc := ℕ×ℕ
 
-def getIdx? (boundary : Loc) : Loc -> Option Nat
+def getIdx? (boundary : Loc) : Loc -> Option ℕ
   | (x, y) => match boundary with | (n, m) => if x < n ∧ y < m then (x * m) + y else none
 
-def findObstacles (grid : Array Char) : Array Nat :=
+def findObstacles (grid : Array Char) : Array ℕ :=
   grid.mapIdx (λ i cell => (cell, i))
     |>.filter (λ (cell, _) => cell = '#')
     |>.map (λ (_, loc) => loc)
 
-def findWarps (grid : Array Char) : Array (List Nat) :=
+def findWarps (grid : Array Char) : Array (List ℕ) :=
   grid.mapIdx (λ i c => (i, c))
-      |>.foldl (λ (acc : Array (List Nat)) (p : Nat × Char) =>
+      |>.foldl (λ (acc : Array (List ℕ)) (p : ℕ × Char) =>
         let (i, c) := p
         if c.isAlpha then
           let code := c.toNat
@@ -32,12 +32,12 @@ def findWarps (grid : Array Char) : Array (List Nat) :=
       ) (Array.replicate 128 [])
 
 def getNeighbors
-  (loc : Nat)
+  (loc : ℕ)
   (visited : Array Bool)
   (grid : Array Char)
   (boundary : Loc)
-  (warps : Array (List Nat))
-   : (Array (List Nat) × List Nat) :=
+  (warps : Array (List ℕ))
+   : (Array (List ℕ) × List ℕ) :=
   let (_, m) := boundary
   let (x, y) := (loc/m, loc%m)
   if let some cell := grid[loc]? then
@@ -51,10 +51,10 @@ def getNeighbors
 partial def bfs
   (grid : Array Char)
   (boundary : Loc)
-  (warps : Array (List Nat))
+  (warps : Array (List ℕ))
   (visited : Array Bool)
-  (queue : Queue (Int×Nat))
-  : Int := match queue.dequeue? with
+  (queue : Queue (ℤ×ℕ))
+  : ℤ := match queue.dequeue? with
   | some ((step, loc), queue) => if (loc + 1) == grid.size then step
     else
     let (warps, neighbors) := getNeighbors loc visited grid boundary warps
@@ -63,7 +63,7 @@ partial def bfs
     bfs grid boundary warps visited queue
   | none => -1
 
-def solution : List String → Int
+def solution : List String → ℤ
 | h :: t =>
   match h.splitOn " " |>.map (·.toNat!) with
     | [h, w] =>

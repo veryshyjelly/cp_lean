@@ -3,18 +3,19 @@
 import Src.Cpio
 
 -- @head begin
-import Std
+import Std.Data.HashSet
+import Mathlib.Data.Int.Basic
 -- @head end
 
 -- @code begin
 open Std
 
-partial def digits (acc : HashSet Nat) : Nat -> HashSet Nat
+partial def digits (acc : HashSet ℕ) : ℕ -> HashSet ℕ
 | 0 => acc
 | n =>  digits (acc.insert (n%10)) (n/10)
 
-def solution : List (List Int) → Int
-| [n, k] :: [ds] =>
+def solution : List (List ℤ) → ℤ
+| [n, _k] :: [ds] =>
   let n := n.toNat
   let barred := HashSet.emptyWithCapacity.insertMany ds
   List.range' n (10*n) |>.find? (λ x =>

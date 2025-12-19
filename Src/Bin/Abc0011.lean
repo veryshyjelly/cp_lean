@@ -2,9 +2,13 @@
 -- https://atcoder.jp/contests/abc001/tasks/abc001_1
 import Src.Cpio
 
+-- @head begin
+import Mathlib.Data.Int.Basic
+-- @head end
+
 -- @code begin
 
-def solution : List (List Int) → Int
+def solution : List (List ℤ) -> ℤ
 | [h₁] :: [h₂] :: _ => h₁ - h₂
 | _ => 0
 

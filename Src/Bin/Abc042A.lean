@@ -2,9 +2,13 @@
 -- https://atcoder.jp/contests/abc042/tasks/abc042_a
 import Src.Cpio
 
+-- @head begin
+import Mathlib.Data.Int.Basic
+-- @head end
+
 -- @code begin
 
-def solution : List (List Int) → String
+def solution : List (List ℤ) → String
 | [phrases] => match phrases.toArray.qsort with
   | #[5, 5, 7] => "YES"
   | _ => "NO"

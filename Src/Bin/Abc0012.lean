@@ -2,9 +2,13 @@
 -- https://atcoder.jp/contests/abc001/tasks/abc001_2
 import Src.Cpio
 
+-- @head begin
+import Mathlib.Data.Int.Basic
+-- @head end
+
 -- @code begin
 
-def solution : List (List Int) → String
+def solution : List (List ℤ) -> String
 | [[m]] => let k := Float.ofInt m / 1000
   let vv := if k < 0.1 then 0
   else if k <= 5 then k * 10

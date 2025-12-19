@@ -1,12 +1,16 @@
 import Src.Cpio
 
+-- @head begin
+import Mathlib.Data.Int.Basic
+-- @head end
+
 -- @code begin
 
-def fillOs (s : String) : Nat → String
+def fillOs (s : String) : ℕ -> String
   | 0     => s
   | n + 1   => fillOs ("o" ++ s) n
 
-def solution : Int × List (List String) → String
+def solution : ℤ × List (List String) -> String
 | (n, s) => match s with
   | [[s]] => fillOs s (n - s.length).toNat
   | _ => ""

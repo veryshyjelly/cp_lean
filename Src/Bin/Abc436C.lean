@@ -4,16 +4,17 @@ import Src.Cpio
 
 -- @head begin
 import Std.Data.HashSet
+import Mathlib.Data.Int.Basic
 -- @head end
 
 -- @code begin
 open Std
 
-def getCube : (Int × Int) -> List (Int × Int)
+def getCube : (ℤ × ℤ) -> List (ℤ × ℤ)
   | (a, b) => [(a, b), (a + 1, b), (a, b + 1), (a + 1, b + 1)]
 
-def fillCube (acc : HashSet (Int × Int) × Int) :
-  List Int -> HashSet (Int × Int) × Int
+def fillCube (acc : HashSet (ℤ × ℤ) × ℤ) :
+  List ℤ -> HashSet (ℤ × ℤ) × ℤ
   | [r, c] =>
   match acc with
     | (space, count) =>
@@ -24,9 +25,9 @@ def fillCube (acc : HashSet (Int × Int) × Int) :
       (space.insertMany cells, count + 1)
   | _ => acc
 
-def solution : List (List Int) → Int
+def solution : List (List ℤ) → ℤ
 | [_, m] :: rcs =>
-  let filled : HashSet (Int × Int) := HashSet.emptyWithCapacity (4 * m.toNat)
+  let filled : HashSet (ℤ × ℤ) := HashSet.emptyWithCapacity (4 * m.toNat)
   let (_, res) := rcs.foldl fillCube (filled, 0)
   res
 | _ => 0

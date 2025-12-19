@@ -9,10 +9,7 @@ name = "Src"
 name = "main"
 root = "Main"
 
-[[lean_exe]]
-name = "Abc436A"
-root = "Src.Bin.Abc436A"
-
-# [[lean_exe]]
-# name = "foo"
-# root = "Src.Bin.Foo"
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+rev = "v4.22.0"

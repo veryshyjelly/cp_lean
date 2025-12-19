@@ -43,6 +43,10 @@ instance : Parser (List String) where
 instance : Parser (List (List String)) where
   parse lines := lines.map String.fields
 
+/-- Parse as lines of multiple Naturals. -/
+instance : Parser (List (List Nat)) where
+  parse lines := lines.map fun l => (String.fields l).map String.toNat!
+
 /-- Parse as lines of multiple Integers. -/
 instance : Parser (List (List Int)) where
   parse lines := lines.map fun l => (String.fields l).map String.toInt!
