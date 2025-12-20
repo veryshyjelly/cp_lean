@@ -26,7 +26,6 @@ def numWays (x y : ℕ) : 𝔽 :=
     factorials[x + y] * factorials[x].inv * factorials[y].inv
   else 1
 
-
 def solution : List (List ℕ) → ℤ
 | [h, w, a, b] :: _ =>
   let r := List.range' b (w - b)
