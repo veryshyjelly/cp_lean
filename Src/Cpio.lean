@@ -34,10 +34,12 @@ def String.fields (s : String) : List String :=
   s.splitOn " " |>.filter (· ≠ "")
 
 -- ** Parsers
-
 /-- Parse as lines of Strings. -/
 instance : Parser (List String) where
   parse := id
+
+instance : Parser (List Int) where
+  parse lines := lines.map λ x => x.toInt!
 
 /-- Parse as lines of words of Strings. -/
 instance : Parser (List (List String)) where

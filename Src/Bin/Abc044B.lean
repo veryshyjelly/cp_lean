@@ -11,7 +11,7 @@ open Std
 -- @code begin
 def solution : List String -> String
 | [w] =>
-  let res := w.toList.mergeSort.groupByKey (id) |>.toList.all (λ (_, g) => 2∣g.length)
+  let res := w.toList.mergeSort.groupByKey id |>.toList.all λ (_, g) => 2∣g.length
   if res then "Yes" else "No"
 | _ => "No"
 

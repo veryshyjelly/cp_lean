@@ -17,7 +17,7 @@ def getIdx? (boundary : Loc) : Loc -> Option ℕ
 def findObstacles (grid : Array Char) : Array ℕ :=
   grid.mapIdx (λ i cell => (cell, i))
     |>.filter (λ (cell, _) => cell = '#')
-    |>.map (λ (_, loc) => loc)
+    |>.map λ (_, loc) => loc
 
 def findWarps (grid : Array Char) : Array (List ℕ) :=
   grid.mapIdx (λ i c => (i, c))
@@ -67,7 +67,7 @@ def solution : List String → ℤ
 | h :: t =>
   match h.splitOn " " |>.map (·.toNat!) with
     | [h, w] =>
-    let grid := t.map (·.toList) |>.flatten |>.toArray
+    let grid := t.map String.toList |>.flatten |>.toArray
     let warps := findWarps grid
     let obstacles := findObstacles grid
     let visited : Array Bool := obstacles.foldl (λ v i => v.set! i true) (Array.replicate (h * w) false)
