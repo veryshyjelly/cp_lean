@@ -16,10 +16,14 @@ structure Point where
 deriving Hashable, BEq
 
 def countInRect (rect : Point) (colored : HashSet Point) : ℕ :=
-  let r := List.range 3
+  let rect := List.range 3
     |>.map λ dx => List.range 3
     |>.map λ dy => Point.mk (rect.x + dx) (rect.y + dy)
-  r.flatten.filter (λ x => colored.contains x) |>.length
+  rect.flatten.filter (λ x => colored.contains x) |>.length
+
+def getRange (x : ℕ) (lim : ℕ) : List ℕ :=
+  let (startx, stopx) := (x - 2, (lim - 3).min x)
+  List.range' startx (stopx - startx + 1)
 
 def process
   (point : Point)
@@ -27,11 +31,10 @@ def process
   (countColor : Array ℕ)
   (colored : HashSet Point)
   : (Array ℕ) × (HashSet Point) :=
-  let (startx, stopx) := (point.x - 2, (size.x - 3).min point.x)
-  let (starty, stopy) := (point.y - 2, (size.y - 3).min point.y)
-  let newCount := List.range' startx (stopx - startx + 1) |>.map (λ x =>
-    List.range' starty (stopy - starty + 1) |>.map λ y => (x, y)
-  ) |>.flatten.foldl (λ cnts (x, y) =>
+  let x_range := getRange point.x size.x
+  let y_range := getRange point.y size.y
+  let newCount := x_range.map (λ x => y_range.map λ y => (x, y))
+  |>.flatten.foldl (λ cnts (x, y) =>
       let this_cnt := countInRect (Point.mk x y) colored
       let cnts := cnts.set! this_cnt (cnts[this_cnt]! - 1)
       cnts.set! (this_cnt + 1) (cnts[this_cnt + 1]! + 1)
@@ -41,13 +44,16 @@ def process
 def solution : List (List ℕ) -> CPio.ListOf ℤ
 | [h, w, n] :: abs =>
   let size := Point.mk h w
-  let total := (h - 2) * (w - 2)
+
   let (cnt, _) := abs.foldl (
-    λ (cnt, colored) ab =>
-      process (Point.mk (ab[0]! - 1) (ab[1]! - 1)) size cnt colored
+    λ (cnt, colored) ab => match ab with
+    | [a, b] => process (Point.mk (a - 1) (b - 1)) size cnt colored
+    | _ => (cnt, colored)
   ) (Array.replicate 10 0, HashSet.emptyWithCapacity n)
-  let zero_cnt := total - cnt.sum
+
+  let zero_cnt := (h - 2) * (w - 2) - cnt.sum
   CPio.ListOf.LinesOf (cnt.set! 0 zero_cnt |>.toList.map Int.ofNat)
+
 | _ => CPio.ListOf.LinesOf []
 
 def main : IO Unit :=

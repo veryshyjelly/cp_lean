@@ -9,21 +9,33 @@ import Mathlib.Data.Int.Basic
 -- @code begin
 def Char.parse (c : Char) : ℕ := c.toNat - '0'.toNat
 
-def compute (s : List Char) (comb : ℕ) : ℕ :=
+def compute (s : List Char) (h : s ≠ []) (comb : ℕ) : ℕ :=
+  have h₁ : s.length ≠ 0 := by
+    simp [h]
+
   let (total, curr, _) := s.drop 1
   |>.foldl (λ (total, curr, mask) si =>
     if mask &&& 1 = 1 then
       (total + curr, si.parse, mask>>>1)
     else
       (total, curr * 10 + si.parse, mask>>>1)
-    ) (0, s[0]!.parse, comb)
+    ) (0, s[0].parse, comb)
   total + curr
 
 def solution : List String -> ℤ
-| [s] =>
+| [s] => if h₁ : s.length = 0 then panic! "invalid input" else
+
   let n := s.length
-  let s := s.toList
-  List.range (1 <<< (n - 1)) |>.map (compute s) |>.sum
+  let chars := s.toList
+
+  have h₂ : chars ≠ [] := by
+    intro hs
+    cases s with | mk data =>
+    simp at h₁
+    contradiction
+
+  List.range (1 <<< (n - 1)) |>.map (compute chars h₂) |>.sum
+
 | _ => 0
 
 def main : IO Unit :=

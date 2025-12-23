@@ -20,16 +20,18 @@ def findObstacles (grid : Array Char) : Array ℕ :=
     |>.map λ (_, loc) => loc
 
 def findWarps (grid : Array Char) : Array (List ℕ) :=
+  let warps := Array.replicate 128 []
   grid.mapIdx (λ i c => (i, c))
       |>.foldl (λ (acc : Array (List ℕ)) (p : ℕ × Char) =>
         let (i, c) := p
         if c.isAlpha then
           let code := c.toNat
-          let existing := acc[code]!
-          acc.set! code (i :: existing)
-        else
-          acc
-      ) (Array.replicate 128 [])
+          if h : code < acc.size then
+            let existing := acc[code]
+            acc.set code (i :: existing)
+          else acc
+        else acc
+      ) warps
 
 def getNeighbors
   (loc : ℕ)
