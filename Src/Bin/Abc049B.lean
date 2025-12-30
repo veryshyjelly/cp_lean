@@ -1,3 +1,5 @@
+-- Created by Ayush Biswas at 2025/12/28 11:58
+-- https://atcoder.jp/contests/abc049/tasks/abc049_b
 import Src.Cpio
 
 -- @head begin
@@ -9,14 +11,9 @@ import Mathlib.Data.String.Lemmas
 
 -- @code begin
 
-def fillOs (s : String) : ℕ -> String
-  | 0     => s
-  | n + 1   => fillOs ("o" ++ s) n
-
-def solution : ℤ × List (List String) -> String
-| (n, s) => match s with
-  | [[s]] => fillOs s (n - s.length).toNat
-  | _ => ""
+def solution : List String -> CPio.ListOf String
+| _ :: image => image.map (λ x => [x, x]) |>.flatten |> CPio.ListOf.LinesOf
+| _ => CPio.ListOf.LinesOf []
 
 def main : IO Unit :=
   open CPio in

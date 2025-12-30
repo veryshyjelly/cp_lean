@@ -8,7 +8,7 @@ import Mathlib.Data.Nat.Sqrt
 -- @head end
 
 -- @code begin
-partial def f_inn (b n : ℕ) (acc : ℕ) : ℕ :=
+partial def f_inn (b n acc : ℕ) : ℕ :=
   if n < b then acc + n
   else f_inn b (n / b) (acc + (n % b))
 

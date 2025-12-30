@@ -3,27 +3,34 @@
 import Src.Cpio
 
 -- @head begin
-import Mathlib.Data.Int.Basic
+import Mathlib.Tactic
+import Mathlib.Data.Int.Lemmas
+import Mathlib.Data.List.Lemmas
+import Mathlib.Data.String.Lemmas
 -- @head end
 
 -- @code begin
 
 def solution : List String -> String
 | [s] =>
-  if h : s.length >= 3 then
-    let s' := s.toList
+  let h₁ : s.length >= 3 := given -- given
+  let s' := s.toList
 
-    have h₂ : s' ≠ [] := by
-      intro hs
-      cases s with | mk data => simp_all [s']
+  have : s' ≠ [] := by
+    intro hs -- hs : s' = []
+    simp [s'] at hs -- hs : s.data = []
+    rw [String.length_eq_list_length] at h₁ -- h₁ : s.data.length >= 3
+    rw [← List.length_eq_zero_iff] at hs -- hs : s.data.length = 0
+    linarith
 
-    have : 0 < s'.length := by rw [List.length_pos_iff]; simpa
+  have : 0 < s'.length := by
+    rw [List.length_pos_iff]
+    exact ‹s' ≠ []›
+    -- exact h₂
 
-    if xor (s'[0] = s'.getLast h₂) (2∣s.length)
-    then "Second"
-    else "First"
-
-  else ""
+  if xor (s'[0] = s'.getLast ‹s' ≠ []›) (2∣s.length)
+  then "Second"
+  else "First"
 | _ => ""
 
 def main : IO Unit :=

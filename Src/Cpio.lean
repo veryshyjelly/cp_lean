@@ -137,5 +137,6 @@ partial def solve [Parser i] [Formatter o] (cfg : Config) (solution : Solution i
 
   outputHandle.putStr result
   if cfg.output.isNone then outputHandle.putStr "\n" -- Add newline for stdout
-
 end CPio
+
+axiom given {P : Prop} : P

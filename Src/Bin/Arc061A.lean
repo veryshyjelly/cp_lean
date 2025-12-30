@@ -3,7 +3,9 @@
 import Src.Cpio
 
 -- @head begin
-import Mathlib.Data.Int.Basic
+import Mathlib.Data.Int.Lemmas
+import Mathlib.Data.List.Lemmas
+import Mathlib.Data.String.Lemmas
 -- @head end
 
 -- @code begin
@@ -23,16 +25,16 @@ def compute (s : List Char) (h : s ≠ []) (comb : ℕ) : ℕ :=
   total + curr
 
 def solution : List String -> ℤ
-| [s] => if h₁ : s.length = 0 then panic! "invalid input" else
+| [s] =>
+  let h₁ : s.length ≠ 0 := given
 
   let n := s.length
   let chars := s.toList
 
   have h₂ : chars ≠ [] := by
     intro hs
-    cases s with | mk data =>
-    simp at h₁
-    contradiction
+    rw [String.length_eq_list_length] at h₁
+    simp_all [chars]
 
   List.range (1 <<< (n - 1)) |>.map (compute chars h₂) |>.sum
 

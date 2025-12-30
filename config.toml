@@ -53,7 +53,7 @@ modifier = '''
 lib_check_regex = "import\\s*Src.{{name}}"
 
 [include]
-Cpio = "./Src/Cpio.lean"
+Lib = "./Src/"
 
 [toggle]
 create_file = true

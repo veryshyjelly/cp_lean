@@ -7,7 +7,7 @@ import Mathlib.Data.Int.Basic
 -- @head end
 
 -- @code begin
-def eatCandies (lim : ℕ) (ate : ℕ) : List ℕ -> ℕ
+def eatCandies (lim ate : ℕ) : List ℕ -> ℕ
 | a₁ :: a₂ :: as =>
   let diff := (a₁ + a₂) - lim
   eatCandies lim (ate + diff) ((a₂ - diff) :: as)

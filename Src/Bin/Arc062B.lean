@@ -8,9 +8,9 @@ import Mathlib.Data.Int.Basic
 
 -- @code begin
 
-def score (Alice : List Char) (Bob : List Char) (acc : ℤ) : ℤ :=
-  match Alice with
-  | a :: as => match Bob with
+def score (alice bob : List Char) (acc : ℤ) : ℤ :=
+  match alice with
+  | a :: as => match bob with
     | b :: bs =>
       if a = 'g' ∧ b = 'p' then score as bs (acc - 1)
       else if a = 'p' ∧ b = 'g' then score as bs (acc + 1)
